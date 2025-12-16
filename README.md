@@ -48,6 +48,8 @@ Edit `src/ExpenseTrackerAPI/appsettings.json`:
 }
 ```
 
+Password is stored using locaol dotnet secret store. Use variable ${DB_PASSWORD}
+
 Replace:
 - `YOUR_RDS_ENDPOINT` - Your AWS RDS endpoint (e.g., `mydb.xxxxx.us-east-1.rds.amazonaws.com`)
 - `YOUR_DATABASE_NAME` - Database name
