@@ -1,6 +1,6 @@
 # Expense Tracker API
 
-A RESTful API for tracking personal expenses built with ASP.NET Core and AWS RDS MS SQL.
+A RESTful API for tracking personal expenses built with ASP.NET Core and MSSQLLocalDB (AWS RDS MS SQL optional).
 
 ## Features
 
@@ -8,7 +8,7 @@ A RESTful API for tracking personal expenses built with ASP.NET Core and AWS RDS
 - ✅ Categorize expenses (Food, Transport, Bills, etc.)
 - ✅ Filter expenses by date range
 - ✅ Monthly expense summary by category
-- ✅ Connects to AWS RDS MS SQL database
+- ✅ Connects to MSSQLLocalDB database (AWS RDS MS SQL optional)
 
 ## Project Structure
 
@@ -29,16 +29,24 @@ ExpenseTracker/
 
 ### Step 1: Database Setup
 
-1. Connect to your AWS RDS MS SQL database
-2. Run the SQL script: `Database/schema.sql`
-3. This will create:
-   - `Categories` table with default categories
-   - `Expenses` table
-   - `vw_MonthlySummary` view
+1. For MSSQLLocalDB (default): The database and schema will be created automatically when the API starts.
+2. For AWS RDS MS SQL: Connect to your AWS RDS MS SQL database and run the SQL script: `Database/schema.sql` (optional, as it's executed automatically)
 
 ### Step 2: Configure Connection String
 
 Edit `src/ExpenseTrackerAPI/appsettings.json`:
+
+For MSSQLLocalDB (default):
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=ExpenseTracker;Trusted_Connection=True;"
+  }
+}
+```
+
+For AWS RDS MS SQL:
 
 ```json
 {
@@ -48,7 +56,7 @@ Edit `src/ExpenseTrackerAPI/appsettings.json`:
 }
 ```
 
-Password is stored using locaol dotnet secret store. Use variable ${DB_PASSWORD}
+Password is stored using local dotnet secret store. Use variable ${DB_PASSWORD}
 
 Replace:
 - `YOUR_RDS_ENDPOINT` - Your AWS RDS endpoint (e.g., `mydb.xxxxx.us-east-1.rds.amazonaws.com`)
@@ -114,5 +122,5 @@ Content-Type: application/json
 
 - ASP.NET Core 9.0
 - Microsoft.Data.SqlClient
-- AWS RDS MS SQL Server
+- MSSQLLocalDB or AWS RDS MS SQL Server
 - Swagger/OpenAPI

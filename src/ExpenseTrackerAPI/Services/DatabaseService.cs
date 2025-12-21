@@ -20,7 +20,7 @@ public class DatabaseService
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        var command = new SqlCommand("SELECT Id, Name, Description, CreatedAt FROM Categories ORDER BY Name", connection);
+        var command = new SqlCommand("EXEC GetCategories", connection);
         using var reader = await command.ExecuteReaderAsync();
 
         while (await reader.ReadAsync())
@@ -44,14 +44,7 @@ public class DatabaseService
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        var query = @"SELECT e.Id, e.Amount, e.CategoryId, e.Description, e.ExpenseDate, e.CreatedAt, c.Name as CategoryName
-                      FROM Expenses e
-                      INNER JOIN Categories c ON e.CategoryId = c.Id
-                      WHERE (@StartDate IS NULL OR e.ExpenseDate >= @StartDate)
-                        AND (@EndDate IS NULL OR e.ExpenseDate <= @EndDate)
-                      ORDER BY e.ExpenseDate DESC";
-
-        var command = new SqlCommand(query, connection);
+        var command = new SqlCommand("EXEC GetExpenses @StartDate, @EndDate", connection);
         command.Parameters.AddWithValue("@StartDate", (object?)startDate ?? DBNull.Value);
         command.Parameters.AddWithValue("@EndDate", (object?)endDate ?? DBNull.Value);
 
@@ -79,12 +72,7 @@ public class DatabaseService
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        var query = @"SELECT e.Id, e.Amount, e.CategoryId, e.Description, e.ExpenseDate, e.CreatedAt, c.Name as CategoryName
-                      FROM Expenses e
-                      INNER JOIN Categories c ON e.CategoryId = c.Id
-                      WHERE e.Id = @Id";
-
-        var command = new SqlCommand(query, connection);
+        var command = new SqlCommand("EXEC GetExpenseById @Id", connection);
         command.Parameters.AddWithValue("@Id", id);
 
         using var reader = await command.ExecuteReaderAsync();
@@ -111,10 +99,7 @@ public class DatabaseService
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        var command = new SqlCommand(
-            @"INSERT INTO Expenses (Amount, CategoryId, Description, ExpenseDate) 
-              VALUES (@Amount, @CategoryId, @Description, @ExpenseDate);
-              SELECT CAST(SCOPE_IDENTITY() as int);", connection);
+        var command = new SqlCommand("EXEC CreateExpense @Amount, @CategoryId, @Description, @ExpenseDate", connection);
 
         command.Parameters.AddWithValue("@Amount", request.Amount);
         command.Parameters.AddWithValue("@CategoryId", request.CategoryId);
@@ -130,7 +115,7 @@ public class DatabaseService
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        var command = new SqlCommand("DELETE FROM Expenses WHERE Id = @Id", connection);
+        var command = new SqlCommand("EXEC DeleteExpense @Id", connection);
         command.Parameters.AddWithValue("@Id", id);
 
         var rowsAffected = await command.ExecuteNonQueryAsync();
@@ -143,15 +128,7 @@ public class DatabaseService
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        var query = @"SELECT c.Name, ISNULL(SUM(e.Amount), 0) as Total
-                      FROM Categories c
-                      LEFT JOIN Expenses e ON c.Id = e.CategoryId 
-                        AND YEAR(e.ExpenseDate) = @Year 
-                        AND MONTH(e.ExpenseDate) = @Month
-                      GROUP BY c.Name
-                      ORDER BY Total DESC";
-
-        var command = new SqlCommand(query, connection);
+        var command = new SqlCommand("EXEC GetMonthlySummary @Year, @Month", connection);
         command.Parameters.AddWithValue("@Year", year);
         command.Parameters.AddWithValue("@Month", month);
 

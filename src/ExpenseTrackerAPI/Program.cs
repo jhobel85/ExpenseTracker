@@ -21,7 +21,7 @@ var app = builder.Build();
 
 // Initialize database
 var masterConnectionString = app.Configuration.GetConnectionString("DefaultConnection")!.Replace("ExpenseTracker", "master");
-await DatabaseInitializer.InitializeAsync(masterConnectionString);
+await DatabaseInitializer.InitializeAsync(masterConnectionString, app.Environment.ContentRootPath);
 
 if (app.Environment.IsDevelopment())
 {

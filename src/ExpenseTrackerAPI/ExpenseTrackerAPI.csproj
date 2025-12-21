@@ -13,4 +13,8 @@
     <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.400.44" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\Database\schema.sql" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
