@@ -14,7 +14,7 @@ public class DatabaseService
     }
 
     // Categories
-    public async Task<List<Category>> GetCategoriesAsync()
+    public virtual async Task<List<Category>> GetCategoriesAsync()
     {
         var categories = new List<Category>();
         using var connection = new SqlConnection(_connectionString);
@@ -38,7 +38,7 @@ public class DatabaseService
     }
 
     // Expenses
-    public async Task<List<Expense>> GetExpensesAsync(DateTime? startDate = null, DateTime? endDate = null)
+    public virtual async Task<List<Expense>> GetExpensesAsync(DateTime? startDate = null, DateTime? endDate = null)
     {
         var expenses = new List<Expense>();
         using var connection = new SqlConnection(_connectionString);
@@ -67,7 +67,7 @@ public class DatabaseService
         return expenses;
     }
 
-    public async Task<Expense?> GetExpenseByIdAsync(int id)
+    public virtual async Task<Expense?> GetExpenseByIdAsync(int id)
     {
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -94,7 +94,7 @@ public class DatabaseService
         return null;
     }
 
-    public async Task<int> CreateExpenseAsync(CreateExpenseRequest request)
+    public virtual async Task<int> CreateExpenseAsync(CreateExpenseRequest request)
     {
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -110,7 +110,7 @@ public class DatabaseService
         return (int)id!;
     }
 
-    public async Task<bool> DeleteExpenseAsync(int id)
+    public virtual async Task<bool> DeleteExpenseAsync(int id)
     {
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -122,7 +122,7 @@ public class DatabaseService
         return rowsAffected > 0;
     }
 
-    public async Task<Dictionary<string, decimal>> GetMonthlySummaryAsync(int year, int month)
+    public virtual async Task<Dictionary<string, decimal>> GetMonthlySummaryAsync(int year, int month)
     {
         var summary = new Dictionary<string, decimal>();
         using var connection = new SqlConnection(_connectionString);

@@ -40,6 +40,9 @@ BEGIN
 END
 
 -- View for monthly expense summary
+GO
+DROP VIEW IF EXISTS vw_MonthlySummary;
+GO
 CREATE VIEW vw_MonthlySummary AS
 SELECT 
     c.Name AS Category,
@@ -50,11 +53,13 @@ SELECT
 FROM Expenses e
 INNER JOIN Categories c ON e.CategoryId = c.Id
 GROUP BY c.Name, YEAR(e.ExpenseDate), MONTH(e.ExpenseDate);
+GO
 
 -- Stored Procedures
 CREATE OR ALTER PROCEDURE GetCategories
 AS
 SELECT Id, Name, Description, CreatedAt FROM Categories ORDER BY Name
+GO
 
 CREATE OR ALTER PROCEDURE GetExpenses
     @StartDate DATETIME = NULL,
@@ -66,6 +71,7 @@ INNER JOIN Categories c ON e.CategoryId = c.Id
 WHERE (@StartDate IS NULL OR e.ExpenseDate >= @StartDate)
   AND (@EndDate IS NULL OR e.ExpenseDate <= @EndDate)
 ORDER BY e.ExpenseDate DESC
+GO
 
 CREATE OR ALTER PROCEDURE GetExpenseById
     @Id INT
@@ -74,6 +80,7 @@ SELECT e.Id, e.Amount, e.CategoryId, e.Description, e.ExpenseDate, e.CreatedAt, 
 FROM Expenses e
 INNER JOIN Categories c ON e.CategoryId = c.Id
 WHERE e.Id = @Id
+GO
 
 CREATE OR ALTER PROCEDURE CreateExpense
     @Amount DECIMAL(10,2),
@@ -84,11 +91,13 @@ AS
 INSERT INTO Expenses (Amount, CategoryId, Description, ExpenseDate) 
 VALUES (@Amount, @CategoryId, @Description, @ExpenseDate);
 SELECT CAST(SCOPE_IDENTITY() as int);
+GO
 
 CREATE OR ALTER PROCEDURE DeleteExpense
     @Id INT
 AS
 DELETE FROM Expenses WHERE Id = @Id
+GO
 
 CREATE OR ALTER PROCEDURE GetMonthlySummary
     @Year INT,
@@ -101,3 +110,4 @@ LEFT JOIN Expenses e ON c.Id = e.CategoryId
   AND MONTH(e.ExpenseDate) = @Month
 GROUP BY c.Name
 ORDER BY Total DESC
+GO

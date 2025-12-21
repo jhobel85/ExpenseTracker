@@ -1,6 +1,110 @@
-@ExpenseTrackerAPI_HostAddress = http://localhost:5108
+@ExpenseTrackerAPI_HostAddress = http://localhost:5000
+@ContentType = application/json
 
-GET {{ExpenseTrackerAPI_HostAddress}}/weatherforecast/
-Accept: application/json
+### ============================================
+### CATEGORIES ENDPOINTS
+### ============================================
+
+### Get all categories
+GET {{ExpenseTrackerAPI_HostAddress}}/api/categories
+Accept: {{ContentType}}
+
+###
+
+### Create a new category
+POST {{ExpenseTrackerAPI_HostAddress}}/api/categories
+Content-Type: {{ContentType}}
+
+{
+  "name": "Groceries",
+  "description": "Food and grocery shopping"
+}
+
+###
+
+### ============================================
+### EXPENSES ENDPOINTS
+### ============================================
+
+### Get all expenses (no filter)
+GET {{ExpenseTrackerAPI_HostAddress}}/api/expenses
+Accept: {{ContentType}}
+
+###
+
+### Get expenses with date range filter
+### Example: Expenses from January 2025 to March 2025
+GET {{ExpenseTrackerAPI_HostAddress}}/api/expenses?startDate=2025-01-01T00:00:00.000Z&endDate=2025-03-31T23:59:59.999Z
+Accept: {{ContentType}}
+
+###
+
+### Get expenses for current month
+GET {{ExpenseTrackerAPI_HostAddress}}/api/expenses?startDate=2025-12-01T00:00:00.000Z&endDate=2025-12-31T23:59:59.999Z
+Accept: {{ContentType}}
+
+###
+
+### Create a new expense
+POST {{ExpenseTrackerAPI_HostAddress}}/api/expenses
+Content-Type: {{ContentType}}
+
+{
+  "amount": 45.50,
+  "categoryId": 1,
+  "description": "Weekly grocery shopping",
+  "expenseDate": "2025-12-21T10:30:00.000Z"
+}
+
+###
+
+### Create another expense with different date
+POST {{ExpenseTrackerAPI_HostAddress}}/api/expenses
+Content-Type: {{ContentType}}
+
+{
+  "amount": 25.99,
+  "categoryId": 2,
+  "description": "Gas for car",
+  "expenseDate": "2025-12-20T14:15:00.000Z"
+}
+
+###
+
+### Get a specific expense by ID
+GET {{ExpenseTrackerAPI_HostAddress}}/api/expenses/1
+Accept: {{ContentType}}
+
+###
+
+### ============================================
+### SUMMARY ENDPOINTS
+### ============================================
+
+### Get monthly summary for December 2025
+GET {{ExpenseTrackerAPI_HostAddress}}/api/expenses/summary/2025/12
+Accept: {{ContentType}}
+
+###
+
+### Get monthly summary for January 2025
+GET {{ExpenseTrackerAPI_HostAddress}}/api/expenses/summary/2025/1
+Accept: {{ContentType}}
+
+###
+
+### Get monthly summary for November 2025
+GET {{ExpenseTrackerAPI_HostAddress}}/api/expenses/summary/2025/11
+Accept: {{ContentType}}
+
+###
+
+### ============================================
+### DELETE ENDPOINTS
+### ============================================
+
+### Delete an expense by ID
+DELETE {{ExpenseTrackerAPI_HostAddress}}/api/expenses/1
+Accept: {{ContentType}}
 
 ###
