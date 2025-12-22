@@ -40,14 +40,22 @@ var app = builder.Build();
 var masterConnectionString = app.Configuration.GetConnectionString("DefaultConnection")!.Replace("ExpenseTracker", "master");
 await DatabaseInitializer.InitializeAsync(masterConnectionString, app.Environment.ContentRootPath);
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 app.UseCors();
-app.UseHttpsRedirection();
+
+// Serve static files from wwwroot
+app.UseStaticFiles();
+
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    // Add custom CSS and JavaScript to style the back button
+    options.InjectStylesheet("/swagger-custom.css");    
+    options.InjectJavascript("/swagger-custom.js");
+});
+
+// Map controllers
 app.MapControllers();
-    
+app.MapFallback(() => Results.Redirect("/index.html"));
+//app.UseHttpsRedirection();
+
 app.Run();

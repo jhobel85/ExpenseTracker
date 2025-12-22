@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div>
+                    <h1>💰 Expense Tracker</h1>
+                    <p class="subtitle">Manage your finances effortlessly</p>
+                </div>
+                <a href="/swagger" class="btn btn-swagger">📋 Swagger UI</a>
+            </div>
+        </header>
+
+        <main>
+            <!-- Add Expense Section -->
+            <section class="add-expense-section">
+                <h2>Add New Expense</h2>
+                <form id="expenseForm" class="expense-form">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" id="description" required placeholder="e.g., Lunch at restaurant">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input type="number" id="amount" required placeholder="0.00" step="0.01" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="category" required>
+                                <option value="">Select Category</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expenseDate">Date</label>
+                        <input type="date" id="expenseDate" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Expense</button>
+                </form>
+            </section>
+
+            <!-- Filters Section -->
+            <section class="filters-section">
+                <h2>Filter Expenses</h2>
+                <div class="filters">
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input type="date" id="endDate">
+                    </div>
+                    <button class="btn btn-secondary" id="filterBtn">Filter</button>
+                    <button class="btn btn-secondary" id="resetBtn">Reset</button>
+                </div>
+            </section>
+
+            <!-- Summary Section -->
+            <section class="summary-section">
+                <h2>Monthly Summary</h2>
+                <div class="summary-controls">
+                    <div class="form-group">
+                        <label for="summaryYear">Year</label>
+                        <input type="number" id="summaryYear" min="2020" max="2099">
+                    </div>
+                    <div class="form-group">
+                        <label for="summaryMonth">Month</label>
+                        <select id="summaryMonth">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-secondary" id="loadSummaryBtn">Load Summary</button>
+                </div>
+                <div id="summaryResult" class="summary-result"></div>
+            </section>
+
+            <!-- Statistics -->
+            <section class="stats-section">
+                <h3>Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Expenses</div>
+                        <div class="stat-value" id="totalExpenses">$0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Entries</div>
+                        <div class="stat-value" id="totalEntries">0</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expenses List -->
+            <section class="expenses-section">
+                <h2>Your Expenses</h2>
+                <div class="expenses-controls">
+                    <button class="btn btn-secondary" id="loadAllBtn">Load All Expenses</button>
+                </div>
+                <div id="loadingSpinner" class="loading-spinner hidden"></div>
+                <div id="expensesList" class="expenses-list"></div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Expense Tracker. Built with ASP.NET Core</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

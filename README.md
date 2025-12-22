@@ -10,21 +10,6 @@ A RESTful API for tracking personal expenses built with ASP.NET Core and MSSQLLo
 - ✅ Monthly expense summary by category
 - ✅ Connects to MSSQLLocalDB database (AWS RDS MS SQL optional)
 
-## Project Structure
-
-```
-ExpenseTracker/
-├── Database/
-│   └── schema.sql              # Database schema
-├── src/
-│   └── ExpenseTrackerAPI/      # ASP.NET Core Web API
-│       ├── Models/             # Data models
-│       ├── Services/           # Database service
-│       ├── *Controller.cs      # API controllers
-│       └── Program.cs
-└── README.md
-```
-
 ## Setup Instructions
 
 ### Step 1: Database Setup
@@ -71,7 +56,7 @@ cd src/ExpenseTrackerAPI
 dotnet run
 ```
 
-The API will start at: `https://localhost:5001` or `http://localhost:5000`
+The API will start at: `https://localhost:5001`
 
 Swagger UI: `https://localhost:5001/swagger`
 
@@ -110,12 +95,25 @@ Content-Type: application/json
 2. Open browser: `https://localhost:5001/swagger`
 3. Test all endpoints interactively
 
+## Web UI
+
+The application includes a modern, responsive web interface for managing expenses:
+
+1. Run the API: `dotnet run`
+2. Open browser: `https://localhost:5001`
+3. Features:
+   - ✨ Add expenses with category, amount, and date
+   - 📅 Filter expenses by date range
+   - 📊 View monthly summary by category
+   - 💰 Track total expenses and entry count
+   - 🗑️ Delete expenses
+   - 📱 Fully responsive design (desktop, tablet, mobile)
+
 ## Next Steps
 
-- [ ] Add authentication
-- [ ] Create web UI
-- [ ] Deploy to AWS (Elastic Beanstalk or App Runner)
+- [x] Create web UI
 - [ ] Add budget tracking
+- [ ] Add authentication
 - [ ] Export to CSV/Excel
 
 ## Technologies
